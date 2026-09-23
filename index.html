@@ -196,6 +196,15 @@ radial-gradient(circle at 77% 55%,#ded4c6 0 18%,transparent 19%),
 <script src="wines.js?v=1"></script>
 <script>
 const WINES = window.WINES || [];
+// Manual corrections from the wine list.
+const DATA_FIXES = {
+  "2009-andre-baeufort-polisy-blanc-de-noirs-49800-champagne-andré-beaufort": {
+    title: "Andre Baeufort Polisy Blanc de Noirs",
+    price: 49800,
+    price_label: "49 800 ₽"
+  }
+};
+WINES.forEach(w => Object.assign(w, DATA_FIXES[w.id] || {}));
 // Normalize accidental prices appended to wine titles (e.g. “... 2018–61 500 ₽”).
 WINES.forEach(w => {
   const title = String(w.title || "").trim();
