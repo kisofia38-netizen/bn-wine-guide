@@ -196,7 +196,18 @@ radial-gradient(circle at 77% 55%,#ded4c6 0 18%,transparent 19%),
 <script src="wines.js?v=1"></script>
 <script>
 const WINES = window.WINES || [];
-WINES.forEach(w => { w.image = (window.WINE_IMAGES || {})[w.id] || ""; })
+// Normalize accidental prices appended to wine titles (e.g. “... 2018–61 500 ₽”).
+WINES.forEach(w => {
+  const title = String(w.title || "").trim();
+  const m = title.match(/(?:\s*[—–-]\s*|\s+)(\d{1,3}(?:[ \u00A0]\d{3})+)\s*₽\s*$/);
+  if (m) {
+    const amount = m[1].replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
+    w.title = title.slice(0, m.index).replace(/[—–-]\s*$/, "").trim();
+    if (!w.price_label) w.price_label = `${amount} ₽`;
+    if (!w.price) w.price = Number(amount.replace(/\s/g, "")) || "";
+  }
+  w.image = (window.WINE_IMAGES || {})[w.id] || "";
+});
 const CATEGORIES = ["Шампанское","Игристое","Белое","Красное","Розовое","Безалкогольное"];
 let active = "Белое";
 
