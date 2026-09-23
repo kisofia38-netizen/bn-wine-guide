@@ -5,6 +5,14 @@
 
   window.WINES = (window.WINES || []).filter(w => !REMOVE_IDS.has(w.id));
 
+  // Stable image replacements for remote bottle photos that did not render reliably.
+  window.WINE_IMAGES = window.WINE_IMAGES || {};
+  Object.assign(window.WINE_IMAGES, {
+    "2022-chianti-classico-querciabella": "https://dara.jo/cdn/shop/files/ScreenShot2026-02-08at4.20.46PM.png?v=1770722543&width=1100",
+    "2022-valpolicella-ripasso-buglioni": "https://lieblings-weine.de/wp-content/uploads/2024/11/buglioni_il_bugiardo_ripasso_valpolicella_classico_superiore_DOC_lieblings-weine.jpg",
+    "2024-le-naturel-zero-zero-blanco-vintae-le-naturel": "https://www.icheers.tw/fileserver/upload/WI00274901_btl.jpg"
+  });
+
   function cleanPairing(input) {
     let s = String(input || "").trim();
     if (!s) return s;
@@ -91,6 +99,23 @@
     return s.trim().replace(/\s{2,}/g, " ");
   }
 
+  function cleanInternalNote(input) {
+    let s = String(input || "").trim();
+    if (!s) return s;
+
+    // Remove editorial/service notes intended for internal checking, not for guests.
+    s = s
+      .replace(/\s*\([^)]*(?:сверить|сверки|подтвердить по (?:вашей )?бутылке|уточнить по (?:бутылке|этикетке|техлисту))[^)]*\)/gi, "")
+      .replace(/;\s*[^.;]*(?:сверить|сверки|подтвердить по (?:вашей )?бутылке|уточнить по (?:бутылке|этикетке|техлисту))[^.]*\.?$/gi, "")
+      .replace(/\s*[—–-]\s*(?:зависит от выпуска,\s*)?(?:встречаются[^;,.]*[;,]\s*)?(?:сверить|подтвердить|уточнить)[^.]*\.?$/gi, "")
+      .replace(/\s*[—–-]\s*[^.]*?(?:сверить|сверки)[^.]*\.?$/gi, "")
+      .replace(/^(?:[^.]*требу(?:ет|ют) сверки|Требует сверки|Нужно сверить|Сверить|Уточнить)(?:[^.]*)\.?$/gi, "")
+      .replace(/\s{2,}/g, " ")
+      .trim();
+
+    return s.replace(/[,;:]\s*$/, "").trim();
+  }
+
   window.WINES.forEach(w => {
     if (w.id === "nv-prosecco-universo-di-corvezzo") {
       w.price = 6900;
@@ -98,6 +123,20 @@
       w.price_label = "6 900 ₽";
       w.glass_price_label = "1 150 ₽";
     }
+
+    if (w.id === "2022-chianti-classico-querciabella") {
+      w.price = 7400;
+      w.price_label = "7 400 ₽";
+    }
+
+    if (w.id === "2020-barolo-tortoniano-michele-chiarlo") {
+      w.price = 11300;
+      w.price_label = "11 300 ₽";
+    }
+
+    ["abv", "grapes", "taste", "aroma", "color", "pairing", "description", "producer_description"].forEach(field => {
+      if (typeof w[field] === "string") w[field] = cleanInternalNote(w[field]);
+    });
 
     w.pairing = cleanPairing(w.pairing);
     w.description = cleanText(w.description);
