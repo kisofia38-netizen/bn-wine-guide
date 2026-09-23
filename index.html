@@ -194,7 +194,7 @@ radial-gradient(circle at 77% 55%,#ded4c6 0 18%,transparent 19%),
 
 <script src="images.js?v=3"></script>
 <script src="wines.js?v=3"></script>
-<script src="editorial-fixes.js?v=1"></script>
+<script src="editorial-fixes.js?v=2"></script>
 <script>
 const WINES = window.WINES || [];
 // Manual corrections from the wine list.
@@ -226,10 +226,10 @@ function esc(s) {
   return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"})[c]);
 }
 function bottleHTML(w) {
-  return w.image ? `<img class="bottle" src="${w.image}" alt="${esc(w.title)}">` : `<div class="placeholder" aria-label="Фото уточняется"></div>`;
+  return w.image ? `<img class="bottle" src="${w.image}" alt="${esc(w.title)}" referrerpolicy="no-referrer">` : `<div class="placeholder" aria-label="Фото уточняется"></div>`;
 }
 function detailBottleHTML(w) {
-  return w.image ? `<img src="${w.image}" alt="${esc(w.title)}">` : `<div class="placeholder" aria-label="Фото уточняется"></div>`;
+  return w.image ? `<img src="${w.image}" alt="${esc(w.title)}" referrerpolicy="no-referrer">` : `<div class="placeholder" aria-label="Фото уточняется"></div>`;
 }
 function renderTabs() {
   $("#tabs").innerHTML=CATEGORIES.map(c=>`<button class="tab ${c===active?'active':''}" data-cat="${c}">${c}</button>`).join("");
