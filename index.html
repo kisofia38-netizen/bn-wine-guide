@@ -36,7 +36,6 @@ button,input{font:inherit}
 .tabs::-webkit-scrollbar{display:none}
 .tab{border:0;background:none;padding:0 0 9px;white-space:nowrap;color:#595550;cursor:pointer;border-bottom:2px solid transparent}
 .tab.active{color:var(--accent);border-color:var(--accent)}
-
 .hero{max-width:1220px;margin:0 auto;padding:34px 28px 20px}
 .hero-box{min-height:190px;padding:34px 38px;border-radius:2px;background:
 linear-gradient(110deg,rgba(255,255,255,.45),rgba(255,255,255,.1)),
@@ -46,7 +45,6 @@ radial-gradient(circle at 77% 55%,#ded4c6 0 18%,transparent 19%),
 .hero h2{font-family:Georgia,'Times New Roman',serif;font-size:62px;font-weight:400;margin:0 0 4px}
 .hero .count{font-family:Georgia,'Times New Roman',serif;font-size:18px;color:#55504b}
 .hero-quote{font-family:Georgia,'Times New Roman',serif;font-size:26px;line-height:1.05;max-width:230px;text-align:right}
-
 .grid{max-width:1220px;margin:auto;padding:20px 28px 70px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .card{background:var(--paper);border:1px solid rgba(220,214,206,.7);padding:22px;min-height:530px;display:flex;flex-direction:column;cursor:pointer;box-shadow:var(--shadow);transition:.18s ease}
 .card:hover{transform:translateY(-3px)}
@@ -63,7 +61,6 @@ radial-gradient(circle at 77% 55%,#ded4c6 0 18%,transparent 19%),
 .card-bottom{margin-top:auto;padding-top:20px}
 .price{font-family:Georgia,'Times New Roman',serif;font-size:21px;margin-bottom:13px}
 .more{color:var(--accent);border-bottom:1px solid var(--accent);display:inline-flex;gap:8px;font-size:13px;padding-bottom:3px}
-
 .detail{display:none;min-height:100vh;background:var(--bg)}
 .detail.open{display:block}
 .detail-main{max-width:980px;margin:auto;padding:38px 28px 80px}
@@ -80,22 +77,18 @@ radial-gradient(circle at 77% 55%,#ded4c6 0 18%,transparent 19%),
 .fact{border-bottom:1px solid var(--line);padding:10px 0;font-size:14px;line-height:1.35}
 .detail-price{font-family:Georgia,'Times New Roman',serif;font-size:27px;color:var(--accent);padding-top:19px}
 .glass-price{font-size:13px;color:var(--muted);margin-top:6px}
-
 .notes{display:grid;grid-template-columns:1fr 1fr;margin:30px 0;border-bottom:1px solid var(--line)}
 .note{padding:18px 28px 25px 0;min-height:130px;border-top:1px solid var(--line)}
 .note:nth-child(odd){border-right:1px solid var(--line)}
 .note:nth-child(even){padding-left:28px}
 .note h3{font-family:Georgia,'Times New Roman',serif;color:var(--accent);font-size:20px;font-weight:400;margin:0 0 8px}
 .note p{margin:0;color:#5c5854;font-size:13px;line-height:1.5}
-
 .long{max-width:800px;margin-top:32px}
 .long h2{font-family:Georgia,'Times New Roman',serif;font-size:34px;color:var(--accent);font-weight:400;margin:35px 0 10px}
 .long h3{font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;margin:0 0 18px}
 .long p{font-size:15px;line-height:1.66;color:#4e4a46;white-space:pre-line}
-
 .empty{grid-column:1/-1;padding:60px;text-align:center;color:var(--muted)}
 .footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-family:Georgia,serif;font-size:13px}
-
 @media(max-width:850px){
   .grid{grid-template-columns:repeat(2,1fr)}
   .hero h2{font-size:50px}
@@ -141,166 +134,26 @@ radial-gradient(circle at 77% 55%,#ded4c6 0 18%,transparent 19%),
 </style>
 </head>
 <body>
-<header class="header">
- <div class="header-inner">
-  <div class="topline">
-   <div class="brand"><h1>WINE GUIDE</h1><p>Кофемания · Большая Никитская</p></div>
-   <div class="search-wrap"><input id="search" class="search" placeholder="Поиск вина"></div>
-  </div>
-  <nav id="tabs" class="tabs"></nav>
- </div>
-</header>
-
-<main id="catalog">
- <section class="hero">
-  <div class="hero-box">
-   <div><h2 id="categoryTitle">Белое</h2><div id="categoryCount" class="count"></div></div>
-   <div class="hero-quote">Больше<br>чем вино.<br>Знание.</div>
-  </div>
- </section>
- <section id="grid" class="grid"></section>
-</main>
-
-<section id="detail" class="detail">
- <div class="detail-main">
-  <div id="back" class="back">← Назад к категории</div>
-  <div class="detail-hero">
-   <div id="detailBottle" class="detail-bottle"></div>
-   <div>
-    <div id="detailYear" class="detail-year"></div>
-    <h1 id="detailTitle" class="detail-title"></h1>
-    <div id="detailProducer" class="detail-producer"></div>
-    <div id="detailRegion" class="fact"></div>
-    <div id="detailCategory" class="fact"></div>
-    <div id="detailGrapes" class="fact"></div>
-    <div id="detailAbv" class="fact"></div>
-    <div id="detailPrice" class="detail-price"></div>
-    <div id="detailGlass" class="glass-price"></div>
-   </div>
-  </div>
-  <div class="notes">
-    <article class="note"><h3>Вкус</h3><p id="taste"></p></article>
-    <article class="note"><h3>Аромат</h3><p id="aroma"></p></article>
-    <article class="note"><h3>Цвет</h3><p id="color"></p></article>
-    <article class="note"><h3>Сочетания</h3><p id="pairing"></p></article>
-  </div>
-  <div class="long">
-    <h2>О вине</h2><p id="description"></p>
-    <h2>О производителе</h2><h3 id="producerHeading"></h3><p id="producerDescription"></p>
-  </div>
-  <div class="footer">WINE GUIDE · Кофемания · Большая Никитская</div>
- </div>
-</section>
-
-<script src="images-1.js?v=1"></script>
-<script src="images-2.js?v=1"></script>
-<script src="images-3.js?v=1"></script>
-<script src="images-4.js?v=1"></script>
-<script src="images-5.js?v=1"></script>
-<script src="images-6.js?v=1"></script>
-<script src="images-7.js?v=1"></script>
-<script src="images-8.js?v=1"></script>
-<script src="images-9.js?v=1"></script>
-<script src="images-10.js?v=1"></script>
-<script>
-</script>
-<script src="wines-1.js?v=1"></script>
-<script src="wines-2.js?v=1"></script>
-<script src="wines-3.js?v=1"></script>
-<script src="wines-4.js?v=1"></script>
-<script src="wines-5.js?v=1"></script>
-<script src="wines-6.js?v=1"></script>
-<script src="wines-7.js?v=1"></script>
-<script src="wines-8.js?v=1"></script>
-<script src="wines-9.js?v=1"></script>
-<script src="wines-10.js?v=1"></script>
+<header class="header"><div class="header-inner"><div class="topline"><div class="brand"><h1>WINE GUIDE</h1><p>Кофемания · Большая Никитская</p></div><div class="search-wrap"><input id="search" class="search" placeholder="Поиск вина"></div></div><nav id="tabs" class="tabs"></nav></div></header>
+<main id="catalog"><section class="hero"><div class="hero-box"><div><h2 id="categoryTitle">Белое</h2><div id="categoryCount" class="count"></div></div><div class="hero-quote">Больше<br>чем вино.<br>Знание.</div></div></section><section id="grid" class="grid"></section></main>
+<section id="detail" class="detail"><div class="detail-main"><div id="back" class="back">← Назад к категории</div><div class="detail-hero"><div id="detailBottle" class="detail-bottle"></div><div><div id="detailYear" class="detail-year"></div><h1 id="detailTitle" class="detail-title"></h1><div id="detailProducer" class="detail-producer"></div><div id="detailRegion" class="fact"></div><div id="detailCategory" class="fact"></div><div id="detailGrapes" class="fact"></div><div id="detailAbv" class="fact"></div><div id="detailPrice" class="detail-price"></div><div id="detailGlass" class="glass-price"></div></div></div><div class="notes"><article class="note"><h3>Вкус</h3><p id="taste"></p></article><article class="note"><h3>Аромат</h3><p id="aroma"></p></article><article class="note"><h3>Цвет</h3><p id="color"></p></article><article class="note"><h3>Сочетания</h3><p id="pairing"></p></article></div><div class="long"><h2>О вине</h2><p id="description"></p><h2>О производителе</h2><h3 id="producerHeading"></h3><p id="producerDescription"></p></div><div class="footer">WINE GUIDE · Кофемания · Большая Никитская</div></div></section>
+<script src="images.js?v=1"></script>
+<script src="wines.js?v=1"></script>
 <script>
 const WINES = window.WINES || [];
 WINES.forEach(w => { w.image = (window.WINE_IMAGES || {})[w.id] || ""; })
 const CATEGORIES = ["Шампанское","Игристое","Белое","Красное","Розовое","Безалкогольное"];
 let active = "Белое";
-
 const $ = s => document.querySelector(s);
-function esc(s) {
-  return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"})[c]);
-}
-function bottleHTML(w) {
-  return w.image ? `<img class="bottle" src="${w.image}" alt="${esc(w.title)}">` : `<div class="placeholder" aria-label="Фото уточняется"></div>`;
-}
-function detailBottleHTML(w) {
-  return w.image ? `<img src="${w.image}" alt="${esc(w.title)}">` : `<div class="placeholder" aria-label="Фото уточняется"></div>`;
-}
-function renderTabs() {
-  $("#tabs").innerHTML=CATEGORIES.map(c=>`<button class="tab ${c===active?'active':''}" data-cat="${c}">${c}</button>`).join("");
-  document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{active=b.dataset.cat; renderCatalog();});
-}
-function filtered() {
-  const q=($("#search")?.value || "").trim().toLowerCase();
-  return WINES.filter(w => w.sheet===active && (!q || [w.title,w.producer,w.region,w.grapes].join(" ").toLowerCase().includes(q)));
-}
-function renderCatalog() {
-  $("#catalog").style.display="";
-  $("#detail").classList.remove("open");
-  renderTabs();
-  $("#categoryTitle").textContent=active;
-  const list=filtered();
-  $("#categoryCount").textContent=`${list.length} ${list.length===1?'позиция':(list.length>=2&&list.length<=4?'позиции':'позиций')}`;
-  $("#grid").innerHTML=list.length ? list.map(w=>`
-   <article class="card" data-id="${w.id}">
-    <div class="bottle-wrap">${bottleHTML(w)}</div>
-    <div class="year">${esc(w.year)}</div>
-    <h3 class="card-title">${esc(w.title)}</h3>
-    <div class="producer">${esc(w.producer)}</div>
-    <div class="meta">${esc(w.region)}</div>
-    <div class="grapes">${esc(w.grapes)}</div>
-    <div class="card-bottom">
-      <div class="price">${esc(w.price_label || "")}</div>
-      <span class="more">Подробнее <span>→</span></span>
-    </div>
-   </article>`).join("") : `<div class="empty">Ничего не найдено</div>`;
-  document.querySelectorAll(".card").forEach(c=>c.onclick=()=>openWine(c.dataset.id));
-  history.replaceState(null,"","#"+encodeURIComponent(active));
-  window.scrollTo({top:0,behavior:"instant"});
-}
-function openWine(id) {
-  const w=WINES.find(x=>x.id===id); if(!w) return;
-  $("#catalog").style.display="none";
-  $("#detail").classList.add("open");
-  $("#back").textContent=`← К ${w.sheet.toLowerCase()} винам`;
-  $("#detailBottle").innerHTML=detailBottleHTML(w);
-  $("#detailYear").textContent=w.year;
-  $("#detailTitle").textContent=w.title;
-  $("#detailProducer").textContent=w.producer;
-  $("#detailRegion").textContent=w.region;
-  $("#detailCategory").textContent=w.category;
-  $("#detailGrapes").textContent=w.grapes;
-  $("#detailAbv").textContent=[w.abv,w.volume].filter(Boolean).join(" · ");
-  $("#detailPrice").textContent=w.price_label || "";
-  $("#detailGlass").textContent=w.glass_price_label ? `${w.glass_price_label} / бокал` : "";
-  $("#taste").textContent=w.taste || "—";
-  $("#aroma").textContent=w.aroma || "—";
-  $("#color").textContent=w.color || "—";
-  $("#pairing").textContent=w.pairing || "—";
-  $("#description").textContent=w.description || "—";
-  $("#producerHeading").textContent=w.producer || "";
-  $("#producerDescription").textContent=w.producer_description || "—";
-  history.pushState(null,"","#wine="+encodeURIComponent(id));
-  window.scrollTo({top:0,behavior:"instant"});
-}
-$("#back").onclick=()=>renderCatalog();
-$("#search").addEventListener("input",()=>renderCatalog());
-window.addEventListener("popstate",()=>location.reload());
-
-function boot() {
-  const hash=decodeURIComponent(location.hash.slice(1));
-  if(hash.startsWith("wine=")) {
-    const id=hash.slice(5);
-    const w=WINES.find(x=>x.id===id);
-    if(w) {active=w.sheet; renderTabs(); openWine(id); return;}
-  }
-  if(CATEGORIES.includes(hash)) active=hash;
-  renderCatalog();
-}
+function esc(s) { return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"})[c]); }
+function bottleHTML(w) { return w.image ? `<img class="bottle" src="${w.image}" alt="${esc(w.title)}">` : `<div class="placeholder" aria-label="Фото уточняется"></div>`; }
+function detailBottleHTML(w) { return w.image ? `<img src="${w.image}" alt="${esc(w.title)}">` : `<div class="placeholder" aria-label="Фото уточняется"></div>`; }
+function renderTabs() { $("#tabs").innerHTML=CATEGORIES.map(c=>`<button class="tab ${c===active?'active':''}" data-cat="${c}">${c}</button>`).join(""); document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{active=b.dataset.cat; renderCatalog();}); }
+function filtered() { const q=($("#search")?.value || "").trim().toLowerCase(); return WINES.filter(w => w.sheet===active && (!q || [w.title,w.producer,w.region,w.grapes].join(" ").toLowerCase().includes(q))); }
+function renderCatalog() { $("#catalog").style.display=""; $("#detail").classList.remove("open"); renderTabs(); $("#categoryTitle").textContent=active; const list=filtered(); $("#categoryCount").textContent=`${list.length} ${list.length===1?'позиция':(list.length>=2&&list.length<=4?'позиции':'позиций')}`; $("#grid").innerHTML=list.length ? list.map(w=>`<article class="card" data-id="${w.id}"><div class="bottle-wrap">${bottleHTML(w)}</div><div class="year">${esc(w.year)}</div><h3 class="card-title">${esc(w.title)}</h3><div class="producer">${esc(w.producer)}</div><div class="meta">${esc(w.region)}</div><div class="grapes">${esc(w.grapes)}</div><div class="card-bottom"><div class="price">${esc(w.price_label || "")}</div><span class="more">Подробнее <span>→</span></span></div></article>`).join("") : `<div class="empty">Ничего не найдено</div>`; document.querySelectorAll(".card").forEach(c=>c.onclick=()=>openWine(c.dataset.id)); history.replaceState(null,"","#"+encodeURIComponent(active)); window.scrollTo({top:0,behavior:"instant"}); }
+function openWine(id) { const w=WINES.find(x=>x.id===id); if(!w) return; $("#catalog").style.display="none"; $("#detail").classList.add("open"); $("#back").textContent=`← К ${w.sheet.toLowerCase()} винам`; $("#detailBottle").innerHTML=detailBottleHTML(w); $("#detailYear").textContent=w.year; $("#detailTitle").textContent=w.title; $("#detailProducer").textContent=w.producer; $("#detailRegion").textContent=w.region; $("#detailCategory").textContent=w.category; $("#detailGrapes").textContent=w.grapes; $("#detailAbv").textContent=[w.abv,w.volume].filter(Boolean).join(" · "); $("#detailPrice").textContent=w.price_label || ""; $("#detailGlass").textContent=w.glass_price_label ? `${w.glass_price_label} / бокал` : ""; $("#taste").textContent=w.taste || "—"; $("#aroma").textContent=w.aroma || "—"; $("#color").textContent=w.color || "—"; $("#pairing").textContent=w.pairing || "—"; $("#description").textContent=w.description || "—"; $("#producerHeading").textContent=w.producer || ""; $("#producerDescription").textContent=w.producer_description || "—"; history.pushState(null,"","#wine="+encodeURIComponent(id)); window.scrollTo({top:0,behavior:"instant"}); }
+$("#back").onclick=()=>renderCatalog(); $("#search").addEventListener("input",()=>renderCatalog()); window.addEventListener("popstate",()=>location.reload());
+function boot() { const hash=decodeURIComponent(location.hash.slice(1)); if(hash.startsWith("wine=")) { const id=hash.slice(5); const w=WINES.find(x=>x.id===id); if(w) {active=w.sheet; renderTabs(); openWine(id); return;} } if(CATEGORIES.includes(hash)) active=hash; renderCatalog(); }
 boot();
 </script>
 </body>
