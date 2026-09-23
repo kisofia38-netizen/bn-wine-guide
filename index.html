@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f1ea">
+<title>Wine Guide — Кофемания · Большая Никитская</title>
+<style>
+:root {
+  --bg:#f5f1ea;
+  --paper:#fbfaf7;
+  --text:#242321;
+  --muted:#77736e;
+  --accent:#6d2736;
+  --line:#dcd6ce;
+  --shadow:0 12px 32px rgba(49,37,29,.055);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+a{color:inherit}
+button,input{font:inherit}
+.serif{font-family:Georgia,'Times New Roman',serif}
+.header {
+  position:sticky;top:0;z-index:40;background:rgba(245,241,234,.94);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line)
+}
+.header-inner{max-width:1220px;margin:auto;padding:20px 28px 0}
+.topline{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
+.brand{line-height:1}
+.brand h1{font-family:Georgia,'Times New Roman',serif;font-size:25px;letter-spacing:.08em;margin:0;font-weight:500}
+.brand p{font-family:Georgia,'Times New Roman',serif;color:var(--muted);font-size:13px;margin:6px 0 0}
+.search-wrap{display:flex;align-items:center;gap:8px}
+.search{border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 2px;width:210px;outline:none}
+.tabs{display:flex;gap:31px;overflow:auto;scrollbar-width:none;padding:24px 0 14px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{border:0;background:none;padding:0 0 9px;white-space:nowrap;color:#595550;cursor:pointer;border-bottom:2px solid transparent}
+.tab.active{color:var(--accent);border-color:var(--accent)}
+
+.hero{max-width:1220px;margin:0 auto;padding:34px 28px 20px}
+.hero-box{min-height:190px;padding:34px 38px;border-radius:2px;background:
+linear-gradient(110deg,rgba(255,255,255,.45),rgba(255,255,255,.1)),
+radial-gradient(circle at 68% 35%,#e9e0d2 0 9%,transparent 10%),
+radial-gradient(circle at 77% 55%,#ded4c6 0 18%,transparent 19%),
+#ece4d8;display:flex;justify-content:space-between;align-items:center;overflow:hidden}
+.hero h2{font-family:Georgia,'Times New Roman',serif;font-size:62px;font-weight:400;margin:0 0 4px}
+.hero .count{font-family:Georgia,'Times New Roman',serif;font-size:18px;color:#55504b}
+.hero-quote{font-family:Georgia,'Times New Roman',serif;font-size:26px;line-height:1.05;max-width:230px;text-align:right}
+
+.grid{max-width:1220px;margin:auto;padding:20px 28px 70px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--paper);border:1px solid rgba(220,214,206,.7);padding:22px;min-height:530px;display:flex;flex-direction:column;cursor:pointer;box-shadow:var(--shadow);transition:.18s ease}
+.card:hover{transform:translateY(-3px)}
+.bottle-wrap{height:280px;display:flex;align-items:center;justify-content:center;margin-bottom:15px}
+.bottle{height:100%;max-width:88%;object-fit:contain;filter:drop-shadow(0 10px 9px rgba(0,0,0,.1))}
+.placeholder{width:88px;height:245px;border-radius:12px 12px 20px 20px;background:linear-gradient(#4b513d,#20251e 70%,#161a15);position:relative;box-shadow:0 11px 17px rgba(0,0,0,.12)}
+.placeholder:before{content:'';position:absolute;top:-25px;left:28px;width:32px;height:34px;background:#292d24;border-radius:3px 3px 0 0}
+.placeholder:after{content:'WINE';position:absolute;left:12px;right:12px;top:94px;background:#e9e2d5;color:#403a34;text-align:center;padding:20px 2px;font-family:Georgia,serif;font-size:11px;letter-spacing:.12em}
+.year{font-family:Georgia,serif;font-size:13px;margin-bottom:3px}
+.card-title{font-family:Georgia,'Times New Roman',serif;font-size:22px;line-height:1.03;margin:0 0 7px;font-weight:400}
+.producer{font-family:Georgia,'Times New Roman',serif;font-size:16px;margin-bottom:10px}
+.meta{color:var(--muted);font-size:13px;line-height:1.45}
+.grapes{font-size:12px;margin-top:4px;color:#5d5954}
+.card-bottom{margin-top:auto;padding-top:20px}
+.price{font-family:Georgia,'Times New Roman',serif;font-size:21px;margin-bottom:13px}
+.more{color:var(--accent);border-bottom:1px solid var(--accent);display:inline-flex;gap:8px;font-size:13px;padding-bottom:3px}
+
+.detail{display:none;min-height:100vh;background:var(--bg)}
+.detail.open{display:block}
+.detail-main{max-width:980px;margin:auto;padding:38px 28px 80px}
+.back{color:var(--accent);font-size:13px;cursor:pointer;display:inline-flex;margin:8px 0 30px}
+.detail-hero{display:grid;grid-template-columns:42% 58%;gap:44px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:36px}
+.detail-bottle{height:510px;display:flex;align-items:center;justify-content:center}
+.detail-bottle img{height:100%;max-width:100%;object-fit:contain;filter:drop-shadow(0 15px 12px rgba(0,0,0,.12))}
+.detail-bottle .placeholder{height:430px;width:145px}
+.detail-bottle .placeholder:before{left:48px;width:49px;height:48px;top:-36px}
+.detail-bottle .placeholder:after{top:165px;padding:34px 2px;font-size:15px}
+.detail-year{font-family:Georgia,serif;font-size:14px}
+.detail-title{font-family:Georgia,'Times New Roman',serif;font-size:51px;line-height:.98;font-weight:400;margin:9px 0 7px}
+.detail-producer{font-family:Georgia,'Times New Roman',serif;font-size:23px;margin-bottom:28px}
+.fact{border-bottom:1px solid var(--line);padding:10px 0;font-size:14px;line-height:1.35}
+.detail-price{font-family:Georgia,'Times New Roman',serif;font-size:27px;color:var(--accent);padding-top:19px}
+.glass-price{font-size:13px;color:var(--muted);margin-top:6px}
+
+.notes{display:grid;grid-template-columns:1fr 1fr;margin:30px 0;border-bottom:1px solid var(--line)}
+.note{padding:18px 28px 25px 0;min-height:130px;border-top:1px solid var(--line)}
+.note:nth-child(odd){border-right:1px solid var(--line)}
+.note:nth-child(even){padding-left:28px}
+.note h3{font-family:Georgia,'Times New Roman',serif;color:var(--accent);font-size:20px;font-weight:400;margin:0 0 8px}
+.note p{margin:0;color:#5c5854;font-size:13px;line-height:1.5}
+
+.long{max-width:800px;margin-top:32px}
+.long h2{font-family:Georgia,'Times New Roman',serif;font-size:34px;color:var(--accent);font-weight:400;margin:35px 0 10px}
+.long h3{font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;margin:0 0 18px}
+.long p{font-size:15px;line-height:1.66;color:#4e4a46;white-space:pre-line}
+
+.empty{grid-column:1/-1;padding:60px;text-align:center;color:var(--muted)}
+.footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-family:Georgia,serif;font-size:13px}
+
+@media(max-width:850px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .hero h2{font-size:50px}
+  .hero-quote{font-size:22px}
+  .detail-main{max-width:720px}
+  .detail-hero{grid-template-columns:1fr}
+  .detail-bottle{height:370px}
+  .detail-title{font-size:44px}
+}
+@media(max-width:570px){
+  .header-inner{padding:18px 16px 0}
+  .topline{align-items:center}
+  .brand h1{font-size:20px}
+  .brand p{font-size:11px}
+  .search-wrap{display:none}
+  .tabs{gap:24px;padding-top:20px;font-size:12px}
+  .hero{padding:26px 16px 8px}
+  .hero-box{background:none;padding:0;min-height:auto;display:block}
+  .hero h2{font-size:42px}
+  .hero .count{font-size:15px}
+  .hero-quote{display:none}
+  .grid{display:block;padding:12px 12px 55px}
+  .card{min-height:0;margin-bottom:12px;padding:15px;display:grid;grid-template-columns:32% 68%;column-gap:14px}
+  .bottle-wrap{height:190px;margin:0;grid-row:1/9}
+  .card-title{font-size:18px}
+  .producer{font-size:14px}
+  .price{font-size:20px}
+  .card-bottom{padding-top:10px}
+  .detail-main{padding:20px 16px 60px}
+  .back{margin:8px 0 16px}
+  .detail-hero{display:block;padding-bottom:25px}
+  .detail-bottle{height:290px;margin-bottom:24px}
+  .detail-bottle .placeholder{height:250px;width:85px}
+  .detail-bottle .placeholder:before{left:28px;width:29px;height:30px;top:-22px}
+  .detail-bottle .placeholder:after{top:90px;padding:20px 2px;font-size:11px}
+  .detail-title{font-size:38px}
+  .detail-producer{font-size:21px;margin-bottom:20px}
+  .notes{display:block}
+  .note,.note:nth-child(even){padding:17px 0;border-right:0}
+  .long h2{font-size:29px}
+  .long p{font-size:14px}
+}
+</style>
+</head>
+<body>
+<header class="header">
+ <div class="header-inner">
+  <div class="topline">
+   <div class="brand"><h1>WINE GUIDE</h1><p>Кофемания · Большая Никитская</p></div>
+   <div class="search-wrap"><input id="search" class="search" placeholder="Поиск вина"></div>
+  </div>
+  <nav id="tabs" class="tabs"></nav>
+ </div>
+</header>
+
+<main id="catalog">
+ <section class="hero">
+  <div class="hero-box">
+   <div><h2 id="categoryTitle">Белое</h2><div id="categoryCount" class="count"></div></div>
+   <div class="hero-quote">Больше<br>чем вино.<br>Знание.</div>
+  </div>
+ </section>
+ <section id="grid" class="grid"></section>
+</main>
+
+<section id="detail" class="detail">
+ <div class="detail-main">
+  <div id="back" class="back">← Назад к категории</div>
+  <div class="detail-hero">
+   <div id="detailBottle" class="detail-bottle"></div>
+   <div>
+    <div id="detailYear" class="detail-year"></div>
+    <h1 id="detailTitle" class="detail-title"></h1>
+    <div id="detailProducer" class="detail-producer"></div>
+    <div id="detailRegion" class="fact"></div>
+    <div id="detailCategory" class="fact"></div>
+    <div id="detailGrapes" class="fact"></div>
+    <div id="detailAbv" class="fact"></div>
+    <div id="detailPrice" class="detail-price"></div>
+    <div id="detailGlass" class="glass-price"></div>
+   </div>
+  </div>
+  <div class="notes">
+    <article class="note"><h3>Вкус</h3><p id="taste"></p></article>
+    <article class="note"><h3>Аромат</h3><p id="aroma"></p></article>
+    <article class="note"><h3>Цвет</h3><p id="color"></p></article>
+    <article class="note"><h3>Сочетания</h3><p id="pairing"></p></article>
+  </div>
+  <div class="long">
+    <h2>О вине</h2><p id="description"></p>
+    <h2>О производителе</h2><h3 id="producerHeading"></h3><p id="producerDescription"></p>
+  </div>
+  <div class="footer">WINE GUIDE · Кофемания · Большая Никитская</div>
+ </div>
+</section>
+
+<script src="images-1.js?v=1"></script>
+<script src="images-2.js?v=1"></script>
+<script src="images-3.js?v=1"></script>
+<script src="images-4.js?v=1"></script>
+<script src="images-5.js?v=1"></script>
+<script src="images-6.js?v=1"></script>
+<script src="images-7.js?v=1"></script>
+<script src="images-8.js?v=1"></script>
+<script src="images-9.js?v=1"></script>
+<script src="images-10.js?v=1"></script>
+<script>
+</script>
+<script src="wines-1.js?v=1"></script>
+<script src="wines-2.js?v=1"></script>
+<script src="wines-3.js?v=1"></script>
+<script src="wines-4.js?v=1"></script>
+<script src="wines-5.js?v=1"></script>
+<script src="wines-6.js?v=1"></script>
+<script src="wines-7.js?v=1"></script>
+<script src="wines-8.js?v=1"></script>
+<script src="wines-9.js?v=1"></script>
+<script src="wines-10.js?v=1"></script>
+<script>
+const WINES = window.WINES || [];
+WINES.forEach(w => { w.image = (window.WINE_IMAGES || {})[w.id] || ""; })
+const CATEGORIES = ["Шампанское","Игристое","Белое","Красное","Розовое","Безалкогольное"];
+let active = "Белое";
+
+const $ = s => document.querySelector(s);
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"})[c]);
+}
+function bottleHTML(w) {
+  return w.image ? `<img class="bottle" src="${w.image}" alt="${esc(w.title)}">` : `<div class="placeholder" aria-label="Фото уточняется"></div>`;
+}
+function detailBottleHTML(w) {
+  return w.image ? `<img src="${w.image}" alt="${esc(w.title)}">` : `<div class="placeholder" aria-label="Фото уточняется"></div>`;
+}
+function renderTabs() {
+  $("#tabs").innerHTML=CATEGORIES.map(c=>`<button class="tab ${c===active?'active':''}" data-cat="${c}">${c}</button>`).join("");
+  document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{active=b.dataset.cat; renderCatalog();});
+}
+function filtered() {
+  const q=($("#search")?.value || "").trim().toLowerCase();
+  return WINES.filter(w => w.sheet===active && (!q || [w.title,w.producer,w.region,w.grapes].join(" ").toLowerCase().includes(q)));
+}
+function renderCatalog() {
+  $("#catalog").style.display="";
+  $("#detail").classList.remove("open");
+  renderTabs();
+  $("#categoryTitle").textContent=active;
+  const list=filtered();
+  $("#categoryCount").textContent=`${list.length} ${list.length===1?'позиция':(list.length>=2&&list.length<=4?'позиции':'позиций')}`;
+  $("#grid").innerHTML=list.length ? list.map(w=>`
+   <article class="card" data-id="${w.id}">
+    <div class="bottle-wrap">${bottleHTML(w)}</div>
+    <div class="year">${esc(w.year)}</div>
+    <h3 class="card-title">${esc(w.title)}</h3>
+    <div class="producer">${esc(w.producer)}</div>
+    <div class="meta">${esc(w.region)}</div>
+    <div class="grapes">${esc(w.grapes)}</div>
+    <div class="card-bottom">
+      <div class="price">${esc(w.price_label || "")}</div>
+      <span class="more">Подробнее <span>→</span></span>
+    </div>
+   </article>`).join("") : `<div class="empty">Ничего не найдено</div>`;
+  document.querySelectorAll(".card").forEach(c=>c.onclick=()=>openWine(c.dataset.id));
+  history.replaceState(null,"","#"+encodeURIComponent(active));
+  window.scrollTo({top:0,behavior:"instant"});
+}
+function openWine(id) {
+  const w=WINES.find(x=>x.id===id); if(!w) return;
+  $("#catalog").style.display="none";
+  $("#detail").classList.add("open");
+  $("#back").textContent=`← К ${w.sheet.toLowerCase()} винам`;
+  $("#detailBottle").innerHTML=detailBottleHTML(w);
+  $("#detailYear").textContent=w.year;
+  $("#detailTitle").textContent=w.title;
+  $("#detailProducer").textContent=w.producer;
+  $("#detailRegion").textContent=w.region;
+  $("#detailCategory").textContent=w.category;
+  $("#detailGrapes").textContent=w.grapes;
+  $("#detailAbv").textContent=[w.abv,w.volume].filter(Boolean).join(" · ");
+  $("#detailPrice").textContent=w.price_label || "";
+  $("#detailGlass").textContent=w.glass_price_label ? `${w.glass_price_label} / бокал` : "";
+  $("#taste").textContent=w.taste || "—";
+  $("#aroma").textContent=w.aroma || "—";
+  $("#color").textContent=w.color || "—";
+  $("#pairing").textContent=w.pairing || "—";
+  $("#description").textContent=w.description || "—";
+  $("#producerHeading").textContent=w.producer || "";
+  $("#producerDescription").textContent=w.producer_description || "—";
+  history.pushState(null,"","#wine="+encodeURIComponent(id));
+  window.scrollTo({top:0,behavior:"instant"});
+}
+$("#back").onclick=()=>renderCatalog();
+$("#search").addEventListener("input",()=>renderCatalog());
+window.addEventListener("popstate",()=>location.reload());
+
+function boot() {
+  const hash=decodeURIComponent(location.hash.slice(1));
+  if(hash.startsWith("wine=")) {
+    const id=hash.slice(5);
+    const w=WINES.find(x=>x.id===id);
+    if(w) {active=w.sheet; renderTabs(); openWine(id); return;}
+  }
+  if(CATEGORIES.includes(hash)) active=hash;
+  renderCatalog();
+}
+boot();
+</script>
+</body>
+</html>
