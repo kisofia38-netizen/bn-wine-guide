@@ -13,6 +13,11 @@
     "2024-le-naturel-zero-zero-blanco-vintae-le-naturel": "https://www.icheers.tw/fileserver/upload/WI00274901_btl.jpg"
   });
 
+  const SOON_OUT_IDS = new Set(["nv-a-bergere-origine-brut","nv-nathalie-falmet-cuvèe-brut","2024-red-convivi-convivi","2022-ossian-viñas-viejas-blanco-ossian-vides-y-vinos","2021-chianti-classico-rocca-di-montegrossi","2022-bourgogne-aligoté-le-hardi-domaine-ballorin-domaine-ballorin-f","2022-bourgogne-pinot-noir-naïma-didon-naïma-david-didon","2023-sancerre-les-boucauds-claude-riffault-domaine-claude-riffault","2023-pouilly-fumé-de-ladoucette-baron-de-ladoucette-château-du-nozet","2024-le-naturel-zero-zero-blanco-vintae-le-naturel","nv-prevoteau-perrier-la-vallee-brut-champagne-prevoteau-perrier"]);
+  window.WINES.forEach(w => {
+    if (SOON_OUT_IDS.has(w.id)) w.soon_out = true;
+  });
+
   function cleanPairing(input) {
     let s = String(input || "").trim();
     if (!s) return s;
@@ -103,7 +108,6 @@
     let s = String(input || "").trim();
     if (!s) return s;
 
-    // Remove editorial/service notes intended for internal checking, not for guests.
     s = s
       .replace(/\s*\([^)]*(?:сверить|сверки|подтвердить по (?:вашей )?бутылке|уточнить по (?:бутылке|этикетке|техлисту))[^)]*\)/gi, "")
       .replace(/;\s*[^.;]*(?:сверить|сверки|подтвердить по (?:вашей )?бутылке|уточнить по (?:бутылке|этикетке|техлисту))[^.]*\.?$/gi, "")
@@ -142,4 +146,91 @@
     w.description = cleanText(w.description);
     w.producer_description = cleanText(w.producer_description);
   });
+
+  function installUiPatches() {
+    if (typeof CATEGORIES !== "undefined" && !CATEGORIES.includes("Новый ввод")) {
+      CATEGORIES.push("Новый ввод");
+    }
+
+    if (!document.querySelector("#wine-guide-extra-style")) {
+      const style = document.createElement("style");
+      style.id = "wine-guide-extra-style";
+      style.textContent = `
+        .soon-badge{display:inline-flex;align-self:flex-start;width:max-content;margin:0 0 9px;padding:5px 9px;border:1px solid #9a6170;border-radius:999px;color:#6d2736;background:#f8eef1;font-size:11px;line-height:1.1;letter-spacing:.02em}
+        .detail-soon-badge{display:inline-flex;margin:0 0 10px;padding:6px 10px;border:1px solid #9a6170;border-radius:999px;color:#6d2736;background:#f8eef1;font-size:12px}
+        @media(max-width:570px){.soon-badge{grid-column:2;margin-bottom:6px}}
+      `;
+      document.head.appendChild(style);
+    }
+
+    const backLabels = {
+      "Шампанское":"← К шампанским винам",
+      "Игристое":"← К игристым винам",
+      "Белое":"← К белым винам",
+      "Красное":"← К красным винам",
+      "Розовое":"← К розовым винам",
+      "Безалкогольное":"← К безалкогольным винам",
+      "Новый ввод":"← К новому вводу"
+    };
+
+    if (typeof renderCatalog === "function" && !window.__wineGuideCatalogPatched) {
+      const originalRenderCatalog = renderCatalog;
+      renderCatalog = function() {
+        originalRenderCatalog();
+        document.querySelectorAll(".card").forEach(card => {
+          const w = window.WINES.find(x => x.id === card.dataset.id);
+          card.querySelector(".soon-badge")?.remove();
+          if (w?.soon_out) {
+            const badge = document.createElement("span");
+            badge.className = "soon-badge";
+            badge.textContent = "скоро выводится";
+            const bottle = card.querySelector(".bottle-wrap");
+            if (bottle) bottle.insertAdjacentElement("afterend", badge);
+            else card.prepend(badge);
+          }
+        });
+      };
+      window.__wineGuideCatalogPatched = true;
+    }
+
+    if (typeof openWine === "function" && !window.__wineGuideOpenPatched) {
+      const originalOpenWine = openWine;
+      openWine = function(id) {
+        originalOpenWine(id);
+        const w = window.WINES.find(x => x.id === id);
+        const back = document.querySelector("#back");
+        if (back && w) back.textContent = backLabels[w.sheet] || "← Назад";
+        document.querySelector(".detail-soon-badge")?.remove();
+        if (w?.soon_out) {
+          const badge = document.createElement("span");
+          badge.className = "detail-soon-badge";
+          badge.textContent = "скоро выводится";
+          const year = document.querySelector("#detailYear");
+          if (year) year.insertAdjacentElement("beforebegin", badge);
+        }
+      };
+      window.__wineGuideOpenPatched = true;
+    }
+
+    if (typeof renderCatalog === "function") renderCatalog();
+  }
+
+  // Load the new intake described in the supplied PDFs without changing the main index file.
+  const extra = document.createElement("script");
+  extra.src = "new-arrivals.js?v=1";
+  extra.onload = () => {
+    // Apply the same internal-note cleaning to the newly loaded records.
+    window.WINES.filter(w => w.sheet === "Новый ввод").forEach(w => {
+      ["abv", "grapes", "taste", "aroma", "color", "pairing", "description", "producer_description"].forEach(field => {
+        if (typeof w[field] === "string") w[field] = cleanInternalNote(w[field]);
+      });
+      w.pairing = cleanPairing(w.pairing);
+      w.description = cleanText(w.description);
+      w.producer_description = cleanText(w.producer_description);
+    });
+    installUiPatches();
+  };
+  document.head.appendChild(extra);
+
+  setTimeout(installUiPatches, 0);
 })();
